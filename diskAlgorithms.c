@@ -8,8 +8,16 @@
 int arr[6][REQUESTS];
 
 int determineAlgorithm(int * ranArray, int ranAlgorithm);
+
 int fcfs(int * ranArray);
 int sstf(int * ranArray);
+//int scan(int * ranArray);
+//int cscan(int * ranArray);
+int look(int * ranArray);
+int clook(int * ranArray);
+
+int* sort(int * ranArray);
+
 int start = 5;
 int ranArray[ARRAYSIZE];
 
@@ -41,7 +49,7 @@ int main (void) {
 	while(requestCount < REQUESTS) {
 
 		//int ranAlgorithm = rand() % 6;
-		int ranAlgorithm = 0;
+		int ranAlgorithm = 5;
 		int headMovement = determineAlgorithm(ranArray, ranAlgorithm);
 		arr[ranAlgorithm][requestCount] = headMovement;
 		printf("Head Movement: %d\n",arr[ranAlgorithm][0]);
@@ -67,6 +75,31 @@ int determineAlgorithm(int * ranArray, int ranAlgorithm) {
 		headCount = sstf(ranArray);
 		printf("FINAL %d\n",headCount);
 	}
+	/*
+	else if(ranAlgorithm == 2) {
+		headCount = scan(ranArray);
+		printf("FINAL %d\n",headCount);
+	}
+	else if(ranAlgorithm == 3) {
+		headCount = cscan(ranArray);
+		printf("FINAL %d\n",headCount);
+	}
+	*/
+	else if(ranAlgorithm == 4) {
+		printf("OK\n");
+		headCount = look(ranArray);
+		printf("FINAL %d\n",headCount);
+	}
+	
+	else if(ranAlgorithm == 5) {
+		headCount = clook(ranArray);
+		printf("FINAL %d\n",headCount);
+	}
+	
+	else {
+		return -1;
+	}
+
 	return headCount;
 }
 
@@ -192,7 +225,134 @@ int sstf(int * ranArray) {
 	return newHead;
 }
 
+int look(int* ranArray) {
 
+	int *returnedArray = sort(ranArray);
+	int i;
+	int j;
+	int arrFinal[10];
+	int origStart = ranArray[5];
+
+	for(i = 0; i < 10; i++) {
+		printf("RETURNED %d\n",returnedArray[i]);
+	}
+
+	int posit;
+	int saveNum;
+	int headTotal;
+
+	for(i = 0; i < 10; i++) {
+		arrFinal[i] = 0;
+		int num = returnedArray[i];
+		if(num == origStart) {
+			posit = i;
+			saveNum = num;
+		}
+	}
+
+	int thisOne;
+	for(i = posit-1; i >= 0; --i) {
+		thisOne = returnedArray[i];
+		int difference = saveNum - thisOne;
+		arrFinal[j] = difference;
+		saveNum = thisOne;
+		headTotal += difference;
+		printf("Total: %d\n",headTotal);
+		j++;
+	}
+
+	for(i = posit+1; i < 10; i++) {
+		thisOne = returnedArray[i];
+		int difference = thisOne - saveNum;
+		arrFinal[j] = difference;
+		headTotal += difference;
+		printf("Total: %d\n",headTotal);
+		saveNum = thisOne;
+		j++;
+	}
+	return headTotal;
+}
+
+int clook(int* ranArray) {
+
+	int *returnedArray = sort(ranArray);
+	int i;
+	int j;
+	int arrFinal[10];
+	int origStart = ranArray[5];
+
+	for(i = 0; i < 10; i++) {
+		printf("RETURNED %d\n",returnedArray[i]);
+	}
+
+	int posit;
+	int saveNum;
+	int headTotal;
+
+	for(i = 0; i < 10; i++) {
+		arrFinal[i] = 0;
+		int num = returnedArray[i];
+		if(num == origStart) {
+			posit = i;
+			saveNum = num;
+		}
+	}
+
+	int thisOne;
+	for(i = posit+1; i < 10; i++) {
+		thisOne = returnedArray[i];
+		int difference = thisOne - saveNum;
+		arrFinal[j] = difference;
+		headTotal += difference;
+		printf("Total: %d\n",headTotal);
+		saveNum = thisOne;
+		j++;
+	}
+
+	for(i = 0; i < posit; i++) {
+		thisOne = returnedArray[i];
+		int difference;
+		if(i == 0) {
+			difference = saveNum - thisOne;
+		}
+		else {
+			difference = thisOne - saveNum;
+		}
+		arrFinal[j] = difference;
+		saveNum = thisOne;
+		headTotal += difference;
+		printf("Total: %d\n",headTotal);
+		j++;
+	}	
+	return headTotal;
+}
+
+int* sort(int * ranArray) {
+
+	int i = 0;
+	int j = 0;
+	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+
+	for(i = 0; i < 10; i++) {
+		aTest[i] = 0;
+	}
+	for(i = 0; i < 10; i++) {
+		aTest[i] = ranArray[i];
+	}
+
+	int a;
+	for (i = 0; i < 10; ++i) {
+       	for (j = i + 1; j < 10; ++j) {
+            if (aTest[i] > aTest[j]) {
+                a =  aTest[i];
+                aTest[i] = 	aTest[j];
+                aTest[j] = a;
+            }
+        }
+    }
+
+	return aTest;
+}
 
 
 
