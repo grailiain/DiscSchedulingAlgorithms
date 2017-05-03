@@ -13,7 +13,7 @@ required by each algorithm.
 #include <stdlib.h>
 
 #define CYLINDERS 5000
-#define REQUESTS 10
+#define REQUESTS 1000
 #define ARRAYSIZE 11
 
 
@@ -31,8 +31,10 @@ int clook(int * ranArray);
 int* sort(int * ranArray);
 
 int start;
-int ranArray[ARRAYSIZE] = {2150, 2069, 1212, 2296, 2800, 544, 1618, 356, 1523,
-4965, 3681};
+
+// THE GIVEN ARRAY IS FOR TESTING, 
+// IT IS USED TO MAKE SURE THE HEADVALUES ARE THE SAME AS THE HOMEWORK SOLUTIONS
+int ranArray[ARRAYSIZE]; // = {2150, 2069, 1212, 2296, 2800, 544, 1618, 356, 1523, 4965, 3681};
 
 
 int main (int argc, char *argv[]) {
@@ -43,12 +45,15 @@ int main (int argc, char *argv[]) {
 	int i, j;
 	int requestCount = 0;
 		
-	/*
+
+
+
+
+	// THIS IS FOR RANDOM SERIES OF 1000 CYLINDERS 
+	// COMMENT OUT FOR TESTING WITH HOMEWORK PROBLEMS
 	for(i = 0; i < ARRAYSIZE; i++) {
 		ranArray[i] = 0;
-	}*/
-	
-/*
+	}
 	printf("RANDOM ARRAY\n");
 	for(i = 0; i < ARRAYSIZE; i++) {
 		int ran = rand() % 5000;
@@ -60,7 +65,9 @@ int main (int argc, char *argv[]) {
 			printf("%d\n",ranArray[i]);
 		}
 	}
-	*/
+	// END  ----  THIS NEEDS TO BE UNCOMMENTED
+
+	
 
 	for(i = 0; i < 6; i++) {
 		for(j = 0; j < ARRAYSIZE; j++) {
@@ -86,18 +93,6 @@ int main (int argc, char *argv[]) {
 			}
 		}
 	}
-
-
-
-
-
-
-	//free(arr);
-	//free(ranArray);
-
-
-
-
 
 	
 	return 0;
@@ -304,7 +299,6 @@ int look(int* ranArray) {
 
 	int thisOne;
 
-
 	for(i = posit+1; i < ARRAYSIZE; i++) {
 		thisOne = ranArray[i];
 		int difference = thisOne - saveNum;
@@ -315,9 +309,7 @@ int look(int* ranArray) {
 		saveNum = thisOne;
 		j++;
 	}
-	//if(posit == 0) {
-		//posit = 1;
-	//}
+
 	for(i = posit-1; i >= 0; --i) {
 		thisOne = ranArray[i];
 		int difference = saveNum - thisOne;
@@ -329,21 +321,14 @@ int look(int* ranArray) {
 		j++;
 	}
 
-
-
-
 	free(aTest);
-
-
-
-
-
 
 	return headTotal;
 }
 
 int clook(int* ranArray) {
 
+	printf("hey\n");
 	int i = 0;
 	int j = 0;
 	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
@@ -353,18 +338,19 @@ int clook(int* ranArray) {
 	}
 	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = ranArray[i];
+		printf("TEST: %d\n",aTest[i]);
 	}
 
 	int arrFinal[ARRAYSIZE];
 	int origStart = ranArray[start];
-	
+
 	ranArray = sort(aTest);
 
 	
 
-	/*for(i = 0; i < 10; i++) {
-		printf("RETURNED %d\n",returnedArray[i]);
-	}*/
+	for(i = 0; i < 10; i++) {
+		printf("RETURNED %d\n",ranArray[i]);
+	}
 
 	int posit;
 	int saveNum;
@@ -409,15 +395,7 @@ int clook(int* ranArray) {
 		j++;
 	}	
 
-
-
-
 	free(aTest);
-
-
-
-
-
 
 	return headTotal;
 }
