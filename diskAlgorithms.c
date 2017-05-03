@@ -14,7 +14,8 @@ required by each algorithm.
 
 #define CYLINDERS 5000
 #define REQUESTS 10
-#define ARRAYSIZE 10
+#define ARRAYSIZE 11
+
 
 int arr[6][REQUESTS];
 
@@ -30,7 +31,8 @@ int clook(int * ranArray);
 int* sort(int * ranArray);
 
 int start;
-int ranArray[ARRAYSIZE];
+int ranArray[ARRAYSIZE] = {2150, 2069, 1212, 2296, 2800, 544, 1618, 356, 1523,
+4965, 3681};
 
 
 int main (int argc, char *argv[]) {
@@ -41,10 +43,12 @@ int main (int argc, char *argv[]) {
 	int i, j;
 	int requestCount = 0;
 		
+	/*
 	for(i = 0; i < ARRAYSIZE; i++) {
 		ranArray[i] = 0;
-	}
-
+	}*/
+	
+/*
 	printf("RANDOM ARRAY\n");
 	for(i = 0; i < ARRAYSIZE; i++) {
 		int ran = rand() % 5000;
@@ -56,9 +60,10 @@ int main (int argc, char *argv[]) {
 			printf("%d\n",ranArray[i]);
 		}
 	}
+	*/
 
 	for(i = 0; i < 6; i++) {
-		for(j = 0; j < REQUESTS; j++) {
+		for(j = 0; j < ARRAYSIZE; j++) {
 			arr[i][j] = 0;
 		}
 	}
@@ -144,8 +149,8 @@ int fcfs(int * ranArray) {
 
 	int i;
 	int head_movement;
-    for(i=start; i < 10; i++) {
-    	if(i+1 < 10) {
+    for(i=start; i < ARRAYSIZE; i++) {
+    	if(i+1 < ARRAYSIZE) {
     		if(ranArray[i+1] > ranArray[i]) {
 	    		int num = ranArray[i+1] - ranArray[i];
 	    		//printf("num: %d\n",num);
@@ -167,13 +172,13 @@ int fcfs(int * ranArray) {
     	if(i == 0) {
     		//printf("I: %d\n",i);
     		if(ranArray[9] > ranArray[0]) {
-	    		int num2 = ranArray[9] - ranArray[0];
+	    		int num2 = ranArray[ARRAYSIZE-1] - ranArray[0];
 	    		//printf("num2: %d\n",num2);
 	    		head_movement = head_movement + num2;
 	    		//printf("Head2: %d\n",head_movement);
     		}
     		else {
-    			int num2 = ranArray[0] - ranArray[9];
+    			int num2 = ranArray[0] - ranArray[ARRAYSIZE-1];
 	    		//printf("num2: %d\n",num2);
 	    		head_movement = head_movement + num2;
 	    		//printf("Head2: %d\n",head_movement);
@@ -204,15 +209,15 @@ int sstf(int * ranArray) {
 
 	int shortest = 5001;
 	int j;
-	int hey = 10;
+	int hey = ARRAYSIZE;
 	int newStart = ranArray[start];
 	//printf("First: %d\n",newStart);
 	int newHead = 0;
 	int saveCurrent;
-	int arrTest[10];
+	int arrTest[ARRAYSIZE];
 	int saveLocation;
 	int i = 0;
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		arrTest[i] = 0;
 	}
 	arrTest[start]++;
@@ -268,19 +273,19 @@ int look(int* ranArray) {
 	int j = 0;
 	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
 
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
 	}
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = ranArray[i];
 	}
 
+	int origStart = ranArray[start];
+	int arrFinal[ARRAYSIZE];
+
 	ranArray = sort(aTest);
 
-	int arrFinal[10];
-	int origStart = ranArray[start];
-
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		printf("RETURNED %d\n",ranArray[i]);
 	}
 
@@ -288,7 +293,7 @@ int look(int* ranArray) {
 	int saveNum;
 	int headTotal = 0;
 
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		arrFinal[i] = 0;
 		int num = ranArray[i];
 		if(num == origStart) {
@@ -298,26 +303,31 @@ int look(int* ranArray) {
 	}
 
 	int thisOne;
+
+
+	for(i = posit+1; i < ARRAYSIZE; i++) {
+		thisOne = ranArray[i];
+		int difference = thisOne - saveNum;
+		printf("L Diff2 %d\n",difference);
+		arrFinal[j] = difference;
+		headTotal += difference;
+		printf("Total: %d\n",headTotal);
+		saveNum = thisOne;
+		j++;
+	}
+	//if(posit == 0) {
+		//posit = 1;
+	//}
 	for(i = posit-1; i >= 0; --i) {
 		thisOne = ranArray[i];
 		int difference = saveNum - thisOne;
+		printf("L Diff1 %d\n",difference);
 		arrFinal[j] = difference;
 		saveNum = thisOne;
 		headTotal += difference;
 		printf("Total: %d\n",headTotal);
 		j++;
 	}
-
-	for(i = posit+1; i < 10; i++) {
-		thisOne = ranArray[i];
-		int difference = thisOne - saveNum;
-		arrFinal[j] = difference;
-		headTotal += difference;
-		printf("Total: %d\n",headTotal);
-		saveNum = thisOne;
-		j++;
-	}
-
 
 
 
@@ -338,17 +348,19 @@ int clook(int* ranArray) {
 	int j = 0;
 	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
 
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
 	}
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = ranArray[i];
 	}
 
+	int arrFinal[ARRAYSIZE];
+	int origStart = ranArray[start];
+	
 	ranArray = sort(aTest);
 
-	int arrFinal[10];
-	int origStart = ranArray[start];
+	
 
 	/*for(i = 0; i < 10; i++) {
 		printf("RETURNED %d\n",returnedArray[i]);
@@ -358,7 +370,7 @@ int clook(int* ranArray) {
 	int saveNum;
 	int headTotal = 0;
 
-	for(i = 0; i < 10; i++) {
+	for(i = 0; i < ARRAYSIZE; i++) {
 		arrFinal[i] = 0;
 		int num = ranArray[i];
 		if(num == origStart) {
@@ -368,9 +380,10 @@ int clook(int* ranArray) {
 	}
 
 	int thisOne;
-	for(i = posit+1; i < 10; i++) {
+	for(i = posit+1; i < ARRAYSIZE; i++) {
 		thisOne = ranArray[i];
 		int difference = thisOne - saveNum;
+		printf("Diff1 %d\n",difference);
 		arrFinal[j] = difference;
 		headTotal += difference;
 		//printf("Total: %d\n",headTotal);
@@ -383,9 +396,11 @@ int clook(int* ranArray) {
 		int difference;
 		if(i == 0) {
 			difference = saveNum - thisOne;
+			printf("Diff2 %d\n",difference);
 		}
 		else {
 			difference = thisOne - saveNum;
+			printf("Diff3 %d\n",difference);
 		}
 		arrFinal[j] = difference;
 		saveNum = thisOne;
@@ -412,8 +427,8 @@ int* sort(int * aTest) {
 	int a;
 	int i = 0;
 	int j = 0;
-	for (i = 0; i < 10; ++i) {
-       	for (j = i + 1; j < 10; ++j) {
+	for (i = 0; i < ARRAYSIZE; ++i) {
+       	for (j = i + 1; j < ARRAYSIZE; ++j) {
             if (aTest[i] > aTest[j]) {
                 a =  aTest[i];
                 aTest[i] = 	aTest[j];
