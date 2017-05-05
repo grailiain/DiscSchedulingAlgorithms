@@ -13,7 +13,7 @@ required by each algorithm.
 #include <stdlib.h>
 
 #define CYLINDERS 5000
-#define REQUESTS 11
+#define REQUESTS 1000
 #define ARRAYSIZE 11
 
 
