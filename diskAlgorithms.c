@@ -9,6 +9,18 @@ on the command line) and report the total amount of head movement
 required by each algorithm.
 */
 
+/* 
+NOTE- New updated version is due to the lines which include: 
+  int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+  these lines worked well for me and I had no compiling errors, however,
+  when Dr. Segal ran it, he had the following errors: 
+  Error in `./test': free(): invalid next size (fast): 0x0000000000819010 ***
+  This is because I should have malloced my array like so:
+   int* aTest = malloc(sizeof(int) * sizeof(ranArray));  
+   I did this and it still works. Thanks :)
+
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -262,7 +274,7 @@ int scan(int * ranArray) {
 
 	int i = 0;
 	int j = 0;
-	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+	int* aTest = malloc(sizeof(int) * sizeof(ranArray)); 
 
 	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
@@ -336,7 +348,7 @@ int cscan(int * ranArray) {
 
 	int i = 0;
 	int j = 0;
-	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+	int* aTest = malloc(sizeof(int) * sizeof(ranArray));
 
 	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
@@ -413,7 +425,7 @@ int look(int* ranArray) {
 
 	int i = 0;
 	int j = 0;
-	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+	int* aTest = malloc(sizeof(int) * sizeof(ranArray));
 
 	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
@@ -477,7 +489,7 @@ int clook(int* ranArray) {
 
 	int i = 0;
 	int j = 0;
-	int* aTest = malloc(sizeof(int) * sizeof(ranArray)/ranArray[0]);  
+	int* aTest = malloc(sizeof(int) * sizeof(ranArray));
 
 	for(i = 0; i < ARRAYSIZE; i++) {
 		aTest[i] = 0;
